@@ -5,7 +5,6 @@ Background: App is open
 	Given Message app is open
 
 Scenario: Send a new message
-
 	
 	When User clicks on new message
 	And  User selects a '<Contact>'
@@ -28,3 +27,14 @@ Scenario Outline: Delete a Message Thread
 	| Contact   |
 	| 021111111 |
 	| 022222222 |
+
+Scenario: Send a new message to invalid number
+
+	When User clicks on new message
+	And  User selects an invalid '<Contact>'
+	Then The message is not sent succesfully
+
+	Examples: 
+	| Contact           | Message                                           |
+	| Invalid123456     | This is a data driven mobile automation message 1 |
+	| invalid@gmail.com | This is an Invalid Message                        |

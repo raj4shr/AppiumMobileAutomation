@@ -2,13 +2,19 @@
 
 public class SendNewMessage: CommonDriver
 {
-
+    #region Private variables
     private ReadOnlyCollection<AndroidElement>? contactElements, messageElements;
-    private string newMessage;
     private string messageNumber;
     private readonly ElementInteractions elementInteractions;
     private ExtentTest? extentTest;
+    #endregion
 
+    #region Properties
+    public bool invalidContact{ get; set; }
+    public string newMessage { get; set; }
+    #endregion
+
+    #region Element repository for POM
     private readonly By messageAppBtn = By.XPath("//android.widget.TextView[@text='Messages']");
     private readonly By startChatBtn = By.XPath("//android.widget.Button[@text='Start chat']");
     private readonly By contactSearchTextBox = By.XPath("//android.widget.MultiAutoCompleteTextView[contains(@text,'Type a name')]");
@@ -17,13 +23,18 @@ public class SendNewMessage: CommonDriver
     private readonly By navigateUpBtn = By.XPath("//android.widget.ImageButton[@content-desc='Navigate up']");
     private readonly By listOfMessages = By.XPath("//android.widget.TextView");
     private readonly By listofMessagesByContact = By.XPath("//android.widget.TextView");
+    #endregion
 
-    //Contructor
+    #region Contructor
     public SendNewMessage()
     {
+        invalidContact = false;
         elementInteractions = new ElementInteractions();
         extentTest = extentReports.CreateTest("Test_NewMessage " + DateTime.Now.ToString("_hhmmss")).Info("Sending a new message");
     }
+    #endregion
+
+    #region Element actions
     //Open messages app
     public void OpenMessagesApp()
     {
@@ -44,6 +55,17 @@ public class SendNewMessage: CommonDriver
         messageNumber = contactName;
         elementInteractions.SendKeysToElement(contactSearchTextBox, contactName + @"\n");
         extentTest.Log(Status.Info, "Selected a contact");
+    }
+
+    //Sending an invalid contact info
+    public void SelectAnInvalidContact(string contactName)
+    {
+        newMessage = contactName;
+        if (elementInteractions.IsElementDisplayed(contactSearchTextBox))
+        {
+            extentTest.Log(Status.Pass, contactName + " is not a valid contact");
+            invalidContact = true;
+        }
     }
 
     //Calling compose message and lick send methods
@@ -88,7 +110,9 @@ public class SendNewMessage: CommonDriver
         messageElements = messageElements = elementInteractions.GetAllElementsByLocator(listofMessagesByContact);
         extentTest.Log(Status.Info, "Getting all the messages within a contact");
     }
+    #endregion
 
+    #region Methods
     //Assertion if the new message has been sent
     public bool NewMessageSentAssertion()
     {
@@ -129,5 +153,6 @@ public class SendNewMessage: CommonDriver
         }
         return false;
     }
+    #endregion
 
 }

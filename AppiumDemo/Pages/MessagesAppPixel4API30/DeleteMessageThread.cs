@@ -2,20 +2,27 @@
 
 public class DeleteMessageThread
 {
+    #region Private variables
     private readonly ElementInteractions elementInteractions;
     private ReadOnlyCollection<AndroidElement>? messageThreads;
     private bool deleted = false;
+    #endregion
 
+    #region Element repository for POM
     private readonly By moreOptionsBtn = By.XPath("//android.widget.ImageView[@content-desc='More options']");
     private readonly By deleteBtn = By.XPath("//android.widget.TextView[@text='Delete']");
     private readonly By confirmDeleteBtn = By.XPath("//android.widget.Button[@text='Delete']");
     private readonly By getAllMessageThreadElements = By.XPath("//android.widget.TextView");
+    #endregion
 
+    #region Constructor
     public DeleteMessageThread()
     {
         elementInteractions = new ElementInteractions();
     }
+    #endregion
 
+    #region Element actions
     //Click on more options button
     public void ClickOnMoreOptions()
     {
@@ -39,7 +46,9 @@ public class DeleteMessageThread
     {
         messageThreads = elementInteractions.GetAllElementsByLocator(getAllMessageThreadElements);
     }
+    #endregion
 
+    #region Methods
     //Checking for the contact inside the message thread and clicking on the contact message thread
     public void ClickOnContact(string contact)
     {
@@ -52,4 +61,5 @@ public class DeleteMessageThread
             }
         }
     }
+    #endregion
 }

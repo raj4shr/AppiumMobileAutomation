@@ -12,11 +12,10 @@ namespace AppiumDemo;
 
 public class CommonDriver
 {
+    #region Static properties to be used in all classes
     //public AndroidDriver<AndroidElement>? driver;
     public static AndroidDriver<AndroidElement>? driver { get; set; }
 
     public static ExtentReports? extentReports { get; set; }
-
-
-
+    #endregion
 }

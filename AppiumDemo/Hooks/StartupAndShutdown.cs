@@ -6,11 +6,14 @@ namespace AppiumDemo;
 [Binding]
 public class StartupAndShutdown : CommonDriver
 {
+    #region Private variables
     private AppiumOptions? options;
     private CapabilitiesBase? capabilities;
     private ExtentHtmlReporter? htmlReporter;
     private string? path;
+    #endregion
 
+    #region Constructor
     public StartupAndShutdown()
     {
         path= @"C:\ExtentReports\" + "Appium" + DateTime.Now.ToString("_MMddyyyy_hhmmss") + @"\index.html";
@@ -20,7 +23,9 @@ public class StartupAndShutdown : CommonDriver
         htmlReporter =new ExtentHtmlReporter(path);
         extentReports.AttachReporter(htmlReporter);
     }
+    #endregion
 
+    #region SpecFlow hooks
     [BeforeScenario]
     public void InitCapabilities()
     {
@@ -45,4 +50,5 @@ public class StartupAndShutdown : CommonDriver
             driver = null;
         }
     }
+    #endregion
 }
